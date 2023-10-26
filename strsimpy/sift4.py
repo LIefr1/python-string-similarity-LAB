@@ -44,6 +44,8 @@ class SIFT4Options(MetricStringDistance):
             'transpositioncostevaluator': {'longertranspositionsaremorecostly':self.longertranspositionsaremorecostly},
             'transpositionsevaluator': {}
         }
+        #Проверка на провельный ввод входяшь данных, то что входяший параметр optionsявляееться словарём, 
+        # поле maxdistance это целочисленный тип, то что объкты options являются вызываемыми.
         if isinstance(options, dict):
             for k, v in options.items():
                 if k in self.options.keys():
@@ -73,7 +75,8 @@ class SIFT4Options(MetricStringDistance):
         self.transpositioncostevaluator = self.options['transpositioncostevaluator']
         self.transpositionsevaluator = self.options['transpositionsevaluator']
 
-    # tokenizers:
+    # tokenizers: - разделяют строки на отдельные токены(спец.символы), необходимый символ 
+    # вводится при вызове функции   
     @staticmethod
     def ngramtokenizer(s, n):
         result = []
@@ -100,13 +103,13 @@ class SIFT4Options(MetricStringDistance):
         similarity = 1 - SIFT4().distance(t1, t2, 5) / max(len(t1), len(t2))
         return similarity > 0.7
 
-    # matchingEvaluators:
+    # matchingEvaluators: - выдаёт индекс сходства 
     @staticmethod
     def sift4matchingevaluator(t1, t2):
         similarity = 1 - SIFT4().distance(t1, t2, 5) / max(len(t1), len(t2))
         return similarity
 
-    # localLengthEvaluators:
+    # localLengthEvaluators: - 
     @staticmethod
     def rewardlengthevaluator(l):
         if l < 1:
@@ -117,12 +120,12 @@ class SIFT4Options(MetricStringDistance):
     def rewardlengthevaluator2(l):
         return pow(l, 1.5)
 
-    # transpositionCostEvaluators:
+    # transpositionCostEvaluators: - индексы цен оперций изменения строк 
     @staticmethod
     def longertranspositionsaremorecostly(c1, c2):
         return abs(c2 - c1) / 9 + 1
 
-
+#Класс алгоритма 
 class SIFT4:
     # As described in https://siderite.dev/blog/super-fast-and-accurate-string-distance.html/
     def distance(self, s1, s2, maxoffset=5, options=None):

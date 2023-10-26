@@ -35,7 +35,7 @@ def default_substitution_cost(char_a, char_b):
 
 
 class WeightedLevenshtein(StringDistance):
-
+    # не понимаю почему сделано так что стандартные значения заполняются из функций
     def __init__(self,
                  substitution_cost_fn=default_substitution_cost,
                  insertion_cost_fn=default_insertion_cost,
@@ -52,17 +52,25 @@ class WeightedLevenshtein(StringDistance):
             raise TypeError("Argument s1 is NoneType.")
         if s0 == s1:
             return 0.0
+        #просчитывает цену вставки в строку если длина первой строки равна 0
+        # функция reduce приминяет анонимную функцию расчёта стоимости к каждому символу второй строки 
         if len(s0) == 0:
             return reduce(lambda cost, char: cost + self.insertion_cost_fn(char), s1, 0)
+        #то же самое тольуо наоборот, и расчёт стоимости удаления
         if len(s1) == 0:
             return reduce(lambda cost, char: cost + self.deletion_cost_fn(char), s0, 0)
 
+        #два нулевых массива стоимостей
         v0, v1 = [0.0] * (len(s1) + 1), [0.0] * (len(s1) + 1)
 
+        #заполнение первого массива стоимостью вставки в строку
         v0[0] = 0
         for i in range(1, len(v0)):
             v0[i] = v0[i - 1] + self.insertion_cost_fn(s1[i - 1])
-
+    
+        # определение стоимостей всех операций, и внесение самой дешевой в массив 
+        # в конце происходит перестановка массивов
+        # и возвращается элемента массива с номером длины второй строки   
         for i in range(len(s0)):
             s0i = s0[i]
             deletion_cost = self.deletion_cost_fn(s0i)

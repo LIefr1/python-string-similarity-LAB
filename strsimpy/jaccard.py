@@ -22,30 +22,38 @@ from .shingle_based import ShingleBased
 from .string_distance import NormalizedStringDistance, MetricStringDistance
 from .string_similarity import NormalizedStringSimilarity
 
-
+#Класс имплементации алгоритма Джаккарда
 class Jaccard(ShingleBased, MetricStringDistance, NormalizedStringDistance, NormalizedStringSimilarity):
 
     def __init__(self, k):
         super().__init__(k)
-
+    #индекс различий строк 
     def distance(self, s0, s1):
         return 1.0 - self.similarity(s0, s1)
 
+    # алгоритма
     def similarity(self, s0, s1):
+        #проверка на пустоту
         if s0 is None:
             raise TypeError("Argument s0 is NoneType.")
         if s1 is None:
             raise TypeError("Argument s1 is NoneType.")
+        #провека на равность
         if s0 == s1:
             return 1.0
+        #прроверка на то что обе строки не меньше чем к
         if len(s0) < self.get_k() or len(s1) < self.get_k():
             return 0.0
+        #Получение профилей 
         profile0 = self.get_profile(s0)
         profile1 = self.get_profile(s1)
         union = set()
+        #добавление ключей профилей в сет union
         for ite in profile0.keys():
             union.add(ite)
         for ite in profile1.keys():
             union.add(ite)
+        # получает разницу между длинами
         inter = int(len(profile0.keys()) + len(profile1.keys()) - len(union))
+        #получения индекса схожести
         return 1.0 * inter / len(union)

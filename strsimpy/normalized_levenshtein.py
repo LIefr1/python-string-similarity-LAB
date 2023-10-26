@@ -25,20 +25,27 @@ from .levenshtein import Levenshtein
 
 class NormalizedLevenshtein(NormalizedStringDistance, NormalizedStringSimilarity):
 
+    #инициализация класса, и переменной в которой содержиться экземпляр класса Levenshtein
     def __init__(self):
         self.levenshtein = Levenshtein()
-
+    #Вычисляет нормализоанную дистацию Левенштайна
     def distance(self, s0, s1):
+        #Проверка на тип
         if s0 is None:
             raise TypeError("Argument s0 is NoneType.")
         if s1 is None:
             raise TypeError("Argument s1 is NoneType.")
+        #Проверка на равество 
         if s0 == s1:
             return 0.0
+        #переменная предствляет максимальную длину из двух строк
         m_len = max(len(s0), len(s1))
+        #если длина ноль, возвращает ноль иначе получает длину по Левенштайну и нормализирует ее, 
+        # путём деления на максимальную длину
         if m_len == 0:
             return 0.0
         return self.levenshtein.distance(s0, s1) / m_len
-
+    
+    #оцениват схожеть строк
     def similarity(self, s0, s1):
         return 1.0 - self.distance(s0, s1)

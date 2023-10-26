@@ -44,5 +44,8 @@ class SorensenDice(ShingleBased, NormalizedStringDistance, NormalizedStringSimil
             union.add(k)
         for k in profile1.keys():
             union.add(k)
+        #тоже самое и в файле overlap_coefficient, только конечный коэфициет растывается по другому 
+        # разница длин сетов делиться на их общую длину, умножается на 2 
         inter = int(len(profile0.keys()) + len(profile1.keys()) - len(union))
+
         return 2.0 * inter / (len(profile0) + len(profile1))

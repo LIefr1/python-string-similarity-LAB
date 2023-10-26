@@ -35,8 +35,10 @@ class QGram(ShingleBased, StringDistance):
         if s0 == s1:
             return 0.0
 
+        #получение профилей строк 
         profile0 = self.get_profile(s0)
         profile1 = self.get_profile(s1)
+        #получение дистанции
         return self.distance_profile(profile0, profile1)
 
     @staticmethod
@@ -47,6 +49,8 @@ class QGram(ShingleBased, StringDistance):
         for k in profile1.keys():
             union.add(k)
         agg = 0
+
+        #Получение числа представляющего разницу между длинами сетов
         for k in union:
             v0, v1 = 0, 0
             if profile0.get(k) is not None:

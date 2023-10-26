@@ -21,24 +21,31 @@
 from .string_distance import NormalizedStringDistance
 from .string_similarity import NormalizedStringSimilarity
 
-
+#Класс имплементации алгоритма Джаро-Вринклера 
 class JaroWinkler(NormalizedStringSimilarity, NormalizedStringDistance):
 
+    #инициализация класс, и входных переменных
     def __init__(self, threshold=0.7):
         self.threshold = threshold
         self.three = 3
         self.jw_coef = 0.1
 
+    #получени переменной threshold
     def get_threshold(self):
         return self.threshold
 
+    #метод получения индекса схожести
     def similarity(self, s0, s1):
+        
+        #проверки на пустоф тип
         if s0 is None:
             raise TypeError("Argument s0 is NoneType.")
         if s1 is None:
             raise TypeError("Argument s1 is NoneType.")
+        #проверки на равность
         if s0 == s1:
             return 1.0
+        
         mtp = self.matches(s0, s1)
         m = mtp[0]
         if m == 0:
@@ -52,18 +59,25 @@ class JaroWinkler(NormalizedStringSimilarity, NormalizedStringDistance):
     def distance(self, s0, s1):
         return 1.0 - self.similarity(s0, s1)
 
+
     @staticmethod
+    #метод который определяет какая строка больше, а какая меньше 
     def matches(s0, s1):
+        #инициализациия перменных max_str, min_str, им большая строка присваитваться max_str, меньшая min_str
         if len(s0) > len(s1):
             max_str = s0
             min_str = s1
         else:
             max_str = s1
             min_str = s0
+        #расчитывает диапазон 
         ran = int(max(len(max_str) / 2 - 1, 0))
+        
+        #создает массивы индексов и булевых флагов, массив индесов длины минимальной строки, булевых флагов длины максимальной строки
         match_indexes = [-1] * len(min_str)
         match_flags = [False] * len(max_str)
         matches = 0
+        #поиск совпадений
         for mi in range(len(min_str)):
             c1 = min_str[mi]
             for xi in range(max(mi - ran, 0), min(mi + ran + 1, len(max_str))):
@@ -72,26 +86,31 @@ class JaroWinkler(NormalizedStringSimilarity, NormalizedStringDistance):
                     match_flags[xi] = True
                     matches += 1
                     break
-
+        #два массива нулей        
         ms0, ms1 = [0] * matches, [0] * matches
         si = 0
+
         for i in range(len(min_str)):
             if match_indexes[i] != -1:
                 ms0[si] = min_str[i]
                 si += 1
         si = 0
         for j in range(len(max_str)):
+            #если элемент в массиве mаtch_flags is True, элемент на индексе si присваивается значению max_str[j]
             if match_flags[j]:
                 ms1[si] = max_str[j]
                 si += 1
         transpositions = 0
+        #сколько различий между массивами ms0, ms1
         for mi in range(len(ms0)):
             if ms0[mi] != ms1[mi]:
                 transpositions += 1
+        
         prefix = 0
         for mi in range(len(min_str)):
             if s0[mi] == s1[mi]:
                 prefix += 1
             else:
                 break
+        #возвращает Список который содержит переменныю "matches", "transpositions", "prefix", и длину максимльной строки
         return [matches, int(transpositions / 2), prefix, len(max_str)]

@@ -20,7 +20,7 @@
 
 import unittest
 
-from .cosine import Cosine
+from cosine import Cosine 
 
 
 class TestCosine(unittest.TestCase):

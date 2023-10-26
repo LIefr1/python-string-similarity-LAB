@@ -18,13 +18,14 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-
+#Класс с одним методом не написанным методом, при выхове даст ошибку "не имплементированно", подразумевает "Перегрузку"
+#Переписывание метода для своих нужд
 class StringSimilarity:
 
     def similarity(self, s0, s1):
         raise NotImplementedError()
 
-
+#То же самое
 class NormalizedStringSimilarity(StringSimilarity):
 
     def similarity(self, s0, s1):

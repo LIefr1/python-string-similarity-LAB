@@ -1,6 +1,6 @@
 import unittest
 
-from strsimpy.overlap_coefficient import OverlapCoefficient
+from .overlap_coefficient import OverlapCoefficient
 
 
 class TestOverlapCoefficient(unittest.TestCase):

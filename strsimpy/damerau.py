@@ -20,29 +20,43 @@
 
 from .string_distance import MetricStringDistance
 
-
+#класс имплементирующий метод Дамерау-Левенштайна, который опередеяет минимальное кол-во оперций требующихся для превращения одной строки в другую
 class Damerau(MetricStringDistance):
 
+    #метод определения дситанции
     def distance(self, s0, s1):
+        # Проверка на пустой тип
         if s0 is None:
             raise TypeError("Argument s0 is NoneType.")
         if s1 is None:
             raise TypeError("Argument s1 is NoneType.")
+        # Проверка на равенство
         if s0 == s1:
             return 0.0
+        #общая длинна строк
         inf = int(len(s0) + len(s1))
         da = dict()
+
+        #заполняет словарь da, парами ключей-значний, где ключь это символ строки на i-том индексе, значение 0
         for i in range(len(s0)):
             da[s0[i]] = str(0)
+        #то же самое для второй строки 
         for i in range(len(s1)):
             da[s1[i]] = str(0)
+        
+        # инциализация Списка, с помощью "List comprehesion", на протяжении длинны первой строки плюс 2, создаёт второй Список внутри h
+        # длинна подСписка опрпделяется длинной второй строки плюс 2
         h = [[0] * (len(s1) + 2) for _ in range(len(s0) + 2)]
+
+        #видоизменяет 2-мерный список h
         for i in range(len(s0) + 1):
             h[i + 1][0] = inf
             h[i + 1][1] = i
         for j in range(len(s1) + 1):
             h[0][j + 1] = inf
             h[1][j + 1] = j
+       
+        #происходит имплементация алгоритма расчитывая мимнимальную "цену" разных математических операций
         for i in range(1, len(s0) + 1):
             db = 0
             for j in range(1, len(s1) + 1):

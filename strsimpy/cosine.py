@@ -27,13 +27,18 @@ from .string_similarity import NormalizedStringSimilarity
 
 class Cosine(ShingleBased, NormalizedStringDistance,
              NormalizedStringSimilarity):
-
+    #инициализация
     def __init__(self, k):
         super().__init__(k)
-
+    
+    #индекс схожести
     def distance(self, s0, s1):
         return 1.0 - self.similarity(s0, s1)
 
+    #метод "схожесть" сначала проверять что параметры не имеют пустое значение
+    #если параметры равны, то возвращает 1.0
+    #если одна из строк меньше длинны переменной к класса ShingleBased, метод возвращает 0.0
+    #возвращает схожеть в виде разницы скалярного произведения профилей и их математической нормы
     def similarity(self, s0, s1):
         if s0 is None:
             raise TypeError("Argument s0 is NoneType.")
@@ -47,9 +52,11 @@ class Cosine(ShingleBased, NormalizedStringDistance,
         profile1 = self.get_profile(s1)
         return self._dot_product(profile0, profile1) / (self._norm(profile0) * self._norm(profile1))
 
+    #определяет схожесть профилей 
     def similarity_profiles(self, profile0, profile1):
         return self._dot_product(profile0, profile1) / (self._norm(profile0) * self._norm(profile1))
 
+    #скалярное произведение
     @staticmethod
     def _dot_product(profile0, profile1):
         small = profile1
@@ -65,6 +72,7 @@ class Cosine(ShingleBased, NormalizedStringDistance,
             agg += 1.0 * v * i
         return agg
 
+    #Математическая норма вектора
     @staticmethod
     def _norm(profile):
         agg = 0.0
