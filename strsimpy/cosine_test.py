@@ -20,24 +20,18 @@
 
 import unittest
 
-from .qgram import QGram
+from .cosine import Cosine 
 
 
-class TestQGram(unittest.TestCase):
+class TestCosine(unittest.TestCase):
 
-    def test_qgram(self):
-        a = QGram(1)
-        s0 = ""
-        s1 = ""
-        s2 = "上海"
-        s3 = "上海市"
-        distance_format = "distance: {:.4}\t between {} and {}"
-        print(distance_format.format(str(a.distance(s0, s1)), s0, s1))
-        print(distance_format.format(str(a.distance(s0, s2)), s0, s2))
-        print(distance_format.format(str(a.distance(s0, s3)), s0, s3))
-        print(distance_format.format(str(a.distance(s1, s2)), s1, s2))
-        print(distance_format.format(str(a.distance(s1, s3)), s1, s3))
-        print(distance_format.format(str(a.distance(s2, s3)), s2, s3))
+    def test_cosine(self):
+        cos = Cosine(1)
+        s = ['', ' ', {5:'asd'}, .0222, 'Shang Hai']
+        for i in range(len(s)):
+            for j in range(i, len(s)):
+                print('dis between \'%s\' and \'%s\': %.4f' % (s[i], s[j], cos.distance(s[i], s[j])))
+                print('sim between \'%s\' and \'%s\': %.4f' % (s[i], s[j], cos.similarity(s[i], s[j])))
 
 
 if __name__ == "__main__":

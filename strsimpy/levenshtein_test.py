@@ -20,18 +20,24 @@
 
 import unittest
 
-from .jaccard import Jaccard
+from .levenshtein import Levenshtein
 
 
-class TestJaccard(unittest.TestCase):
+class TestLevenshtein(unittest.TestCase):
 
-    def test_jaccard(self):
-        jaccard = Jaccard(1)
-        s = ['', ' ', 'Shanghai', 'ShangHai', 'Shang Hai']
-        for i in range(len(s)):
-            for j in range(i, len(s)):
-                print('dis between \'%s\' and \'%s\': %.4f' % (s[i], s[j], jaccard.distance(s[i], s[j])))
-                print('sim between \'%s\' and \'%s\': %.4f' % (s[i], s[j], jaccard.similarity(s[i], s[j])))
+    def test_levenshtein(self):
+        a = Levenshtein()
+        s0 = ""
+        s1 = ""
+        s2 = .0222
+        s3 = "p12pe 12ke0i13nm- p3"
+        distance_format = "distance: {:.4}\t between {} and {}"
+        print(distance_format.format(str(a.distance(s0, s1)), s0, s1))
+        print(distance_format.format(str(a.distance(s0, s2)), s0, s2))
+        print(distance_format.format(str(a.distance(s0, s3)), s0, s3))
+        print(distance_format.format(str(a.distance(s1, s2)), s1, s2))
+        print(distance_format.format(str(a.distance(s1, s3)), s1, s3))
+        print(distance_format.format(str(a.distance(s2, s3)), s2, s3))
 
 
 if __name__ == "__main__":

@@ -20,17 +20,17 @@
 
 import unittest
 
-from .levenshtein import Levenshtein
+from .damerau import Damerau
 
 
-class TestLevenshtein(unittest.TestCase):
+class TestDamerau(unittest.TestCase):
 
-    def test_levenshtein(self):
-        a = Levenshtein()
+    def test_damerau(self):
+        a = Damerau()
         s0 = ""
         s1 = ""
-        s2 = "上海"
-        s3 = "上海市"
+        s2 = "foo"
+        s3 = "bartend"
         distance_format = "distance: {:.4}\t between {} and {}"
         print(distance_format.format(str(a.distance(s0, s1)), s0, s1))
         print(distance_format.format(str(a.distance(s0, s2)), s0, s2))

@@ -20,18 +20,18 @@
 
 import unittest
 
-from cosine import Cosine 
+from .jaccard import Jaccard
 
 
-class TestCosine(unittest.TestCase):
+class TestJaccard(unittest.TestCase):
 
-    def test_cosine(self):
-        cos = Cosine(1)
-        s = ['', ' ', 'Shanghai', 'ShangHai', 'Shang Hai']
+    def test_jaccard(self):
+        jaccard = Jaccard(1)
+        s = ['', ' ', 1, 'ShangHai', .0222, {5:'asd'}]
         for i in range(len(s)):
             for j in range(i, len(s)):
-                print('dis between \'%s\' and \'%s\': %.4f' % (s[i], s[j], cos.distance(s[i], s[j])))
-                print('sim between \'%s\' and \'%s\': %.4f' % (s[i], s[j], cos.similarity(s[i], s[j])))
+                print('dis between \'%s\' and \'%s\': %.4f' % (s[i], s[j], jaccard.distance(s[i], s[j])))
+                print('sim between \'%s\' and \'%s\': %.4f' % (s[i], s[j], jaccard.similarity(s[i], s[j])))
 
 
 if __name__ == "__main__":

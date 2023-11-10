@@ -9,7 +9,7 @@ class SIFT4Test(unittest.TestCase):
         s = SIFT4()
         
         results = [
-            ('This is the first string', 'And this is another string', 5, 11.0),
+            ({5:'asd'}, 'And this is another string', 5, 11.0),
             ('Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 'Amet Lorm ispum dolor sit amet, consetetur adixxxpiscing elit.', 10, 12.0)
         ]
 

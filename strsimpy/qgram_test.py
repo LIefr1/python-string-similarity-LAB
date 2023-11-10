@@ -20,17 +20,17 @@
 
 import unittest
 
-from .damerau import Damerau
+from .qgram import QGram
 
 
-class TestDamerau(unittest.TestCase):
+class TestQGram(unittest.TestCase):
 
-    def test_damerau(self):
-        a = Damerau()
+    def test_qgram(self):
+        a = QGram(1)
         s0 = ""
         s1 = ""
-        s2 = "上海"
-        s3 = "上海市"
+        s2 = "weq"
+        s3 = "213231 dsdawed 1"
         distance_format = "distance: {:.4}\t between {} and {}"
         print(distance_format.format(str(a.distance(s0, s1)), s0, s1))
         print(distance_format.format(str(a.distance(s0, s2)), s0, s2))

@@ -1,6 +1,6 @@
 import unittest
 
-from .overlap_coefficient import OverlapCoefficient
+from strsimpy.overlap_coefficient import OverlapCoefficient
 
 
 class TestOverlapCoefficient(unittest.TestCase):
@@ -29,6 +29,12 @@ class TestOverlapCoefficient(unittest.TestCase):
     def test_overlap_coefficient_halfsimilar_return1(self):
         sim = OverlapCoefficient(2)
         s1, s2 = "car", "bar"
+        self.assertEqual(1 / 2, sim.similarity(s1, s2))
+        self.assertEqual(1 / 2, sim.distance(s1, s2))
+    
+    def test_overlap_coefficient_halfsimilar_return2(self):
+        sim = OverlapCoefficient(2)
+        s1, s2 = "asdnasodoamsdaosd", "asda'/wd/da/[w/d]"
         self.assertEqual(1 / 2, sim.similarity(s1, s2))
         self.assertEqual(1 / 2, sim.distance(s1, s2))
 
